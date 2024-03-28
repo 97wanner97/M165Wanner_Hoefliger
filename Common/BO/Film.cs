@@ -1,10 +1,15 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Configuration;
 
 namespace Common.BO
 {
     public class Film
     {
+        string connectionString = ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString;
+        string databaseName = ConfigurationManager.AppSettings["DatabaseName"];
+
+
         [BsonId]
         public ObjectId Id { get; set; }
 
