@@ -44,7 +44,6 @@
   <ItemGroup>
     <Compile Include="BO\Film.cs" />
     <Compile Include="BO\Filmproduzent.cs" />
-    <Compile Include="Configurations\MongoDBSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
