@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using _002_Repository;
 using System.Runtime.Serialization;
 using MongoDB.Bson;
-using Google.Android.Material.Internal;
 
 
 namespace Frontend
@@ -66,7 +65,7 @@ namespace Frontend
         }
 
 
-        private void DeleteFilmById(Object filmId)
+        private void DeleteFilmById(ObjectId filmId)
         {
             filmRepository.DeleteOne(filmId);
             LoadAllFilme();
@@ -79,10 +78,10 @@ namespace Frontend
         }
         private void LoadFilmproduzentById(ObjectId filmproduzentId)
         {
-            Film film = filmproduzentRepository.GetFilmproduzentById(filmproduzentId);
+            Filmproduzent filmProduzent = filmproduzentRepository.GetFilmproduzentById(filmproduzentId);
 
-            filme = null;
-            filme.Append(film);
+            filmproduzenten = null;
+            filmproduzenten.Append(filmProduzent);
             UpdateFilmListe();
         }
 
@@ -92,16 +91,16 @@ namespace Frontend
             LoadAllFilme();
         }
 
-        private void UpdateFilm(Filmproduzent filmproduzent)
+        private void UpdateFilmProduzent(Filmproduzent filmproduzent)
         {
             filmproduzentRepository.UpdateFilmproduzent(filmproduzent);
             LoadAllFilme();
         }
 
 
-        private void DeleteFilmById(Object filmId)
+        private void DeleteFilmProduzentById(ObjectId filmProduzentId)
         {
-            filmproduzentRepository.DeleteFilmproduzent(filmId);
+            filmproduzentRepository.DeleteFilmproduzent(filmProduzentId);
             LoadAllFilme();
         }
 
