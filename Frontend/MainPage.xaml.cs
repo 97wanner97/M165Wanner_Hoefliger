@@ -1,52 +1,119 @@
 ﻿using Microsoft.Maui.Controls;
 using Common.BO;
+using Repository;
 using System.Collections.Generic;
+using _002_Repository;
+using System.Runtime.Serialization;
+using MongoDB.Bson;
+using Google.Android.Material.Internal;
+
 
 namespace Frontend
 {
     public partial class MainPage : ContentPage
     {
-        List<Film> filme;
-        List<Filmproduzent> filmproduzenten;
+        
+        
+        FilmRepository filmRepository = new FilmRepository();
+        FilmproduzentRepository filmproduzentRepository = new FilmproduzentRepository();
+        IEnumerable<Film> filme;
+        IEnumerable<Filmproduzent> filmproduzenten;
 
         public MainPage()
         {
             InitializeComponent();
-            LoadFilme(); // Standart werden die Filme geladen
+            LoadAllFilme(); // Standart werden die Filme geladen
         }
 
-        private void LoadFilme()
+        private void UpdateFilmListe()
         {
-            
-            filme = new List<Film>(); 
-
             FilmListView.ItemsSource = filme;
+            FilmproduzentListView.IsVisible = false;
             FilmListView.IsVisible = true;
-
-            // Filme werden geladen, Filmproduzenten werden ausgeblendet
-            FilmProduzentListView.IsVisible = false;
         }
 
-        private void LoadFilmproduzenten()
+        private void UpdateFilmproduzentenListe()
         {
-            
-            filmproduzenten = new List<Filmproduzent>(); 
-
-            FilmProduzentListView.ItemsSource = filmproduzenten;
-            FilmProduzentListView.IsVisible = true;
-
-            // Filmproduzenten werden geladen, Filme werden ausgeblendet
+            FilmproduzentListView.ItemsSource = filmproduzenten;
             FilmListView.IsVisible = false;
+            FilmproduzentListView.IsVisible = true;
         }
+
+        private void LoadAllFilme()
+        {
+            filme = filmRepository.FindAll();
+            UpdateFilmListe();
+        }
+        private void LoadFilmById(ObjectId filmId)
+        {
+            Film film = filmRepository.FindById(filmId);
+
+            filme = null;
+            filme.Append(film);
+            UpdateFilmListe();
+        }
+
+        private void AddFilm(Film film)
+        {
+            filmRepository.InsertOne(film);
+            LoadAllFilme();
+        }
+
+        private void UpdateFilm(Film film)
+        {
+            filmRepository.UpdateOne(film);
+            LoadAllFilme();
+        }
+
+
+        private void DeleteFilmById(Object filmId)
+        {
+            filmRepository.DeleteOne(filmId);
+            LoadAllFilme();
+        }
+
+        private void LoadAllFilmproduztenten()
+        {
+            filmproduzenten =  filmproduzentRepository.GetAllFilmproduzenten();
+            UpdateFilmproduzentenListe();
+        }
+        private void LoadFilmproduzentById(ObjectId filmproduzentId)
+        {
+            Film film = filmproduzentRepository.GetFilmproduzentById(filmproduzentId);
+
+            filme = null;
+            filme.Append(film);
+            UpdateFilmListe();
+        }
+
+        private void AddFilmproduzent(Filmproduzent filmproduzent)
+        {
+            filmproduzentRepository.InsertFilmproduzent(filmproduzent);
+            LoadAllFilme();
+        }
+
+        private void UpdateFilm(Filmproduzent filmproduzent)
+        {
+            filmproduzentRepository.UpdateFilmproduzent(filmproduzent);
+            LoadAllFilme();
+        }
+
+
+        private void DeleteFilmById(Object filmId)
+        {
+            filmproduzentRepository.DeleteFilmproduzent(filmId);
+            LoadAllFilme();
+        }
+
 
         private void OnFilmsClicked(object sender, EventArgs e)
         {
-            LoadFilme(); 
+            LoadAllFilme(); 
         }
 
         private void OnFilmProducersClicked(object sender, EventArgs e)
         {
-            LoadFilmproduzenten(); 
+            LoadAllFilmproduztenten(); 
         }
     }
 }
