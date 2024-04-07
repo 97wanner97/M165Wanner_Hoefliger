@@ -93,6 +93,8 @@
                                     <Label Padding="5" Text="{Binding AnzahlMitarbeiter}" FontSize="14" />
                                     <Label Padding="5" Text="{Binding Gruendungsjahr}" FontSize="14" />
                                     <Label Padding="5" Text="{Binding Id}" FontSize="14" />
+                                    <Button Text="Bearbeiten" Clicked="UpdateFilmProduzent"/>
+                                    <Button Text="Löschen" Clicked="DeleteFilmProduzentById"/>
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
