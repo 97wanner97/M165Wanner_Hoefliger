@@ -4,14 +4,26 @@ using System;
 
 namespace Frontend
 {
-    internal class Program : MauiApplication
+    /// <summary>
+    /// Die Startklasse für die .NET MAUI-Anwendung.
+    /// </summary>
+    internal static class Program
     {
-        protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
-
+        /// <summary>
+        /// Der Einstiegspunkt der Anwendung.
+        /// </summary>
+        /// <param name="args">Die Startargumente der Anwendung.</param>
         static void Main(string[] args)
         {
-            var app = new Program();
-            app.Run(args);
+            MauiApp.CreateBuilder()
+                .UseMauiApp<App>() 
+                .ConfigureFonts(fonts =>
+                {
+                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                })
+                .Build() 
+                .Run(); 
         }
     }
 }

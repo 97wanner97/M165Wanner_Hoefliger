@@ -1,38 +1,53 @@
 ﻿using Microsoft.Maui.Controls;
 using Common.BO;
-using Repository;
-using System.Collections.Generic;
 using _002_Repository;
-using System.Runtime.Serialization;
+using System.Collections.Generic;
 using MongoDB.Bson;
+using System;
 using Windows.Storage;
 
 
 namespace Frontend
 {
+    /// <summary>
+    /// Hauptseite der Anwendung, welche die Benutzeroberfläche für das Anzeigen und Verwalten von Filmen und Filmproduzenten bereitstellt.
+    /// </summary>
     public partial class MainPage : ContentPage
     {
-        
-        
-        FilmRepository filmRepository = new FilmRepository();
-        FilmproduzentRepository filmproduzentRepository = new FilmproduzentRepository();
-        IEnumerable<Film> filme;
-        IEnumerable<Filmproduzent> filmproduzenten;
+        private FilmRepository filmRepository = new FilmRepository();
+        private FilmproduzentRepository filmproduzentRepository = new FilmproduzentRepository();
+        private IEnumerable<Film> filme;
+        private IEnumerable<Filmproduzent> filmproduzenten;
 
+        /// <summary>
+        /// Konstruiert die Hauptseite und initialisiert die notwendigen Komponenten.
+        /// </summary>
         public MainPage()
         {
             InitializeComponent();
-            LoadAllFilme(); // Standart werden die Filme geladen
+            LoadAllFilme();
         }
+        /// <summary>
+        /// Behandelt das Ereignis, wenn auf die Schaltfläche "Filme" geklickt wird.
+        /// </summary>
+        /// <param name="sender">Der Sender des Ereignisses.</param>
+        /// <param name="e">Die Ereignisdaten.</param>
         private void OnFilmsClicked(object sender, EventArgs e)
         {
             LoadAllFilme();
         }
-
+        /// <summary>
+        /// Behandelt das Ereignis, wenn auf die Schaltfläche "Filmproduzenten" geklickt wird.
+        /// </summary>
+        /// <param name="sender">Der Sender des Ereignisses.</param>
+        /// <param name="e">Die Ereignisdaten.</param>
         private void OnFilmProducersClicked(object sender, EventArgs e)
         {
             LoadAllFilmproduztenten();
         }
+        /// <summary>
+        /// Lädt alle Filme und aktualisiert die Liste.
+        /// </summary>
         private void LoadAllFilme()
         {
             filme = filmRepository.FindAll();
@@ -44,6 +59,10 @@ namespace Frontend
             UpdateFilmproduzentenListe();
         }
 
+        /// <summary>
+        /// Aktualisiert die Liste der Filme auf der Benutzeroberfläche.
+        /// </summary>
+
         private void UpdateFilmListe()
         {
             FilmListView.ItemsSource = filme;
@@ -51,20 +70,34 @@ namespace Frontend
             FilmListView.IsVisible = true;
         }
 
+        /// <summary>
+        /// Aktualisiert die Liste der Filmproduzenten auf der Benutzeroberfläche.
+        /// </summary>
         private void UpdateFilmproduzentenListe()
         {
             FilmproduzentListView.ItemsSource = filmproduzenten;
             Filme.IsVisible = false;
             Filmproduzenten.IsVisible = true;
+
+       
+
+        /// <summary>
+        /// Lädt einen Film anhand seiner ID und aktualisiert die Liste.
+        /// </summary>
+        /// <param name="filmId">Die ObjectId des Films.</param>
         }
         private void LoadFilmById(ObjectId filmId)
         {
             Film film = filmRepository.FindById(filmId);
-
-            filme = null;
-            filme.Append(film);
+            filme = new List<Film> { film };
             UpdateFilmListe();
         }
+
+        /// <summary>
+        /// Fügt einen neuen Film hinzu und aktualisiert die Liste.
+        /// </summary>
+        /// <param name="sender">Der Sender des Ereignisses.</param>
+        /// <param name="e">Die Ereignisdaten.</param>
         private void InsertFilm(System.Object sender, System.EventArgs e)
         {
             Film film = new Film();
@@ -73,20 +106,24 @@ namespace Frontend
             {
                 film.AnzahlMinuten = resultMinuten;
             }
-            
+
             film.Kategorie = FilmKategorie.Text;
             film.Hauptdarsteller = FilmHauptdarsteller.Text;
-            if(int.TryParse(FilmAnzahlSchauspieler.Text, out int resultSchauspieler))
+            if (int.TryParse(FilmAnzahlSchauspieler.Text, out int resultSchauspieler))
             {
                 film.AnzahlSchauspieler = resultSchauspieler;
             }
-            if(ObjectId.TryParse(FilmFilmProduzentId.Text, out ObjectId resultFilmproduzentId))
+            if (ObjectId.TryParse(FilmFilmProduzentId.Text, out ObjectId resultFilmproduzentId))
             {
                 film.FilmproduzentId = resultFilmproduzentId;
             }
-
-            filmRepository.InsertOne(film);
         }
+
+        /// <summary>
+        /// Fügt einen neuen Filmproduzenten hinzu und aktualisiert die Liste.
+        /// </summary>
+        /// <param name="sender">Der Sender des Ereignisses.</param>
+        /// <param name="e">Die Ereignisdaten.</param>
         private void InsertFilmproduzent(System.Object sender, System.EventArgs e)
         {
             Filmproduzent filmproduzent = new Filmproduzent();
@@ -100,9 +137,13 @@ namespace Frontend
             {
                 filmproduzent.Gruendungsjahr= resultGruendungsjahr;
             }
-
             filmproduzentRepository.InsertFilmproduzent(filmproduzent);
         }
+
+        /// <summary>
+        /// Aktualisiert einen Film und die Liste.
+        /// </summary>
+        /// <param name="film">Das Film-Objekt, das aktualisiert werden soll.</param>
         private void UpdateFilm(System.Object sender, System.EventArgs e)
         {
             Button button = (Button)sender;
@@ -111,6 +152,11 @@ namespace Frontend
             filmRepository.UpdateOne(film);
             LoadAllFilme();
         }
+
+        /// <summary>
+        /// Löscht einen Film anhand seiner ID und aktualisiert die Liste.
+        /// </summary>
+        /// <param name="filmId">Die ObjectId des Films.</param>
         private void DeleteFilmById(System.Object sender, System.EventArgs e)
         {
             Button button = (Button)sender;
@@ -118,28 +164,53 @@ namespace Frontend
             filmRepository.DeleteOne(filmId);
             LoadAllFilme();
         }
+
+        /// <summary>
+        /// Lädt alle Filmproduzenten und aktualisiert die Liste.
+        /// </summary>
+        private void LoadAllFilmproduzenten()
+        {
+            filmproduzenten = filmproduzentRepository.GetAllFilmproduzenten();
+            UpdateFilmproduzentenListe();
+        }
+
+        /// <summary>
+        /// Lädt einen Filmproduzenten anhand seiner ID und aktualisiert die Liste.
+        /// </summary>
+        /// <param name="filmproduzentId">Die ObjectId des Filmproduzenten.</param>
         private void LoadFilmproduzentById(ObjectId filmproduzentId)
         {
-            Filmproduzent filmProduzent = filmproduzentRepository.GetFilmproduzentById(filmproduzentId);
-
-            filmproduzenten = null;
-            filmproduzenten.Append(filmProduzent);
-            UpdateFilmListe();
+            Filmproduzent filmproduzent = filmproduzentRepository.GetFilmproduzentById(filmproduzentId);
+            filmproduzenten = new List<Filmproduzent> { filmproduzent };
+            UpdateFilmproduzentenListe();
         }
+
+        /// <summary>
+        /// Aktualisiert einen Filmproduzenten und die Liste.
+        /// </summary>
+        /// <param name="sender">Der Sender des Ereignisses.</param>
+        /// <param name="e">Die Ereignisdaten.</param>
         private void UpdateFilmProduzent(System.Object sender, System.EventArgs e)
         {
             Button button = (Button)sender;
             ObjectId filmproduzentId = (MongoDB.Bson.ObjectId)button.CommandParameter;
             Filmproduzent filmproduzent = filmproduzentRepository.GetFilmproduzentById(filmproduzentId);
-            filmproduzentRepository.UpdateFilmproduzent(filmproduzent);
             LoadAllFilmproduztenten();
+            LoadAllFilmproduzenten();
         }
+
+        /// <summary>
+        /// Löscht einen Filmproduzenten anhand seiner ID und aktualisiert die Liste.
+        /// </summary>
+        /// <param name="sender">Der Sender des Ereignisses.</param>
+        /// <param name="e">Die Ereignisdaten.</param>
         private void DeleteFilmProduzentById(System.Object sender, System.EventArgs e)
         {
+        
             Button button = (Button)sender;
             ObjectId filmproduzentId = (MongoDB.Bson.ObjectId)button.CommandParameter;
             filmproduzentRepository.DeleteFilmproduzent(filmproduzentId);
-            LoadAllFilmproduztenten();
+            LoadAllFilmproduztenten(); 
         }
     }
 }
