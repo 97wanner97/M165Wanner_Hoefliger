@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{796E74C8-A81B-4F8B-BA33-B9B86DCEE6DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "Frontend\Frontend.csproj", "{E68D4E0B-6452-47D8-B53A-D0C767684185}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Frontend", "Frontend\Frontend.csproj", "{E68D4E0B-6452-47D8-B53A-D0C767684185}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

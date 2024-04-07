@@ -11,46 +11,94 @@
             </StackLayout>
 
             <!-- Film Liste -->
-            <ListView x:Name="FilmListView">
-                <ListView.Header>
-                    <Label Text="Films" FontSize="20" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" Margin="0,10,0,5" />
-                </ListView.Header>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="10">
-                                <Label Text="{Binding Name}" FontSize="18" />
-                                <Label Text="{Binding AnzahlMinuten}" FontSize="14" />
-                                <Label Text="{Binding Kategorie}" FontSize="14" />
-                                <Label Text="{Binding Hauptdarsteller}" FontSize="14" />
-                                <Label Text="{Binding AnzahlSchauspieler}" FontSize="14" />
-                                <Label Text="{Binding FilmproduzentId}" FontSize="14" />
-                                <Label Text="{Binding Id}" FontSize="14" />
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <VerticalStackLayout x:Name="Filme">
+                <Label Text="Films" FontSize="20" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" Margin="0,10,0,5" />
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <VerticalStackLayout Margin="5">
+                        <Label Text="Name:" FontSize="14" VerticalOptions="Center" />
+                        <Entry Text="{Binding Name}" x:Name="FilmName" FontSize="14" VerticalOptions="Center" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Margin="5">
+                        <Label Text="Anzahl Minuten:" FontSize="14" VerticalOptions="Center" />
+                        <Entry Text="{Binding AnzahlMinuten}" x:Name="FilmAnzahlMinuten" FontSize="14" VerticalOptions="Center" Keyboard="Numeric" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Margin="5">
+                        <Label Text="Kategorie:" FontSize="14" VerticalOptions="Center" />
+                        <Entry Text="{Binding Kategorie}" x:Name="FilmKategorie" FontSize="14" VerticalOptions="Center" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Margin="5">
+                        <Label Text="Hauptdarsteller:" FontSize="14" VerticalOptions="Center" />
+                        <Entry Text="{Binding Hauptdarsteller}" x:Name="FilmHauptdarsteller" FontSize="14" VerticalOptions="Center" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Margin="5">
+                        <Label Text="Anzahl Schauspieler:" FontSize="14" VerticalOptions="Center" />
+                        <Entry Text="{Binding AnzahlSchauspieler}" x:Name="FilmAnzahlSchauspieler" FontSize="14" VerticalOptions="Center" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Margin="5">
+                        <Label Text="Filmproduzent ID:" FontSize="14" VerticalOptions="Center" />
+                        <Entry Text="{Binding FilmproduzentId}" x:Name="FilmFilmProduzentId" FontSize="14" VerticalOptions="Center" />
+                    </VerticalStackLayout>
+                    <Button Text="Hinzufügen" Clicked="InsertFilm"/>
+                </HorizontalStackLayout>
+                <ListView x:Name="FilmListView">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="10">
+                                    <Label Margin="5" Text="{Binding Name}" FontSize="18" />
+                                    <Label Margin="5" Text="{Binding AnzahlMinuten}" FontSize="14" />
+                                    <Label Margin="5" Text="{Binding Kategorie}" FontSize="14" />
+                                    <Label Margin="5" Text="{Binding Hauptdarsteller}" FontSize="14" />
+                                    <Label Margin="5" Text="{Binding AnzahlSchauspieler}" FontSize="14" />
+                                    <Label Margin="5" Text="{Binding FilmproduzentId}" FontSize="14" />
+                                    <Label Margin="5" Text="{Binding Id}" FontSize="14" />
+                                    <Button Text="Bearbeiten" Clicked="UpdateFilm"/>
+                                    <Button Text="Löschen" Clicked="DeleteFilmById"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </VerticalStackLayout>
 
             <!-- Filmproduzent Liste -->
-            <ListView x:Name="FilmproduzentListView" IsVisible="False">
-                <ListView.Header>
-                    <Label Text="Film Producers" FontSize="20" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" Margin="0,10,0,5" />
-                </ListView.Header>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="10">
-                                <Label Text="{Binding Name}" FontSize="18" />
-                                <Label Text="{Binding Hauptsitz}" FontSize="14" />
-                                <Label Text="{Binding AnzahlMitarbeiter}" FontSize="14" />
-                                <Label Text="{Binding Gruendungsjahr}" FontSize="14" />
-                                <Label Text="{Binding Id}" FontSize="14" />
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <VerticalStackLayout x:Name="Filmproduzenten" IsVisible="false">
+                <Label Text="Filmproduzenten" FontSize="20" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" Margin="0,10,0,5" />
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <VerticalStackLayout Margin="5">
+                        <Label Text="Name:" FontSize="14" VerticalOptions="Center" />
+                        <Entry Text="{Binding Name}" x:Name="FilmproduzentName" FontSize="14" VerticalOptions="Center" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Margin="5">
+                        <Label Text="Hauptsitz:" FontSize="14" VerticalOptions="Center" />
+                        <Entry Text="{Binding Hauptsitz} " x:Name="FilmproduzentHauptsitz" FontSize="14" VerticalOptions="Center" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Margin="5">
+                        <Label Text="Anzahl Mitarbeiter:" FontSize="14" VerticalOptions="Center" />
+                        <Entry Text="{Binding AnzahlMitarbeiter}" x:Name="FilmproduzentAnzahlMitarbeiter" FontSize="14" VerticalOptions="Center" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Margin="5">
+                        <Label Text="Gründungsjahr:" FontSize="14" VerticalOptions="Center" />
+                        <Entry Text="{Binding Gruendungsjahr}" x:Name="FilmproduzentGruendungsjahr" FontSize="14" VerticalOptions="Center" />
+                    </VerticalStackLayout>
+                    <Button Text="Hinzufügen" Clicked="InsertFilmproduzent"/>
+                </HorizontalStackLayout>
+                <ListView x:Name="FilmproduzentListView">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="10">
+                                    <Label Padding="5" Text="{Binding Name}" FontSize="18" />
+                                    <Label Padding="5" Text="{Binding Hauptsitz}" FontSize="14" />
+                                    <Label Padding="5" Text="{Binding AnzahlMitarbeiter}" FontSize="14" />
+                                    <Label Padding="5" Text="{Binding Gruendungsjahr}" FontSize="14" />
+                                    <Label Padding="5" Text="{Binding Id}" FontSize="14" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </VerticalStackLayout>
 
 
         </StackLayout>
